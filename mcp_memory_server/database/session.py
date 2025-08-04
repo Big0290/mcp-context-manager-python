@@ -27,10 +27,12 @@ def get_session() -> Generator[Session, None, None]:
 def create_tables():
     """Create all database tables."""
     from .base import Base, engine
+
     Base.metadata.create_all(bind=engine)
 
 
 def drop_tables():
     """Drop all database tables."""
     from .base import Base, engine
-    Base.metadata.drop_all(bind=engine) 
+
+    Base.metadata.drop_all(bind=engine)

@@ -189,4 +189,4 @@ To extend the server:
 3. Add corresponding private methods for tool logic
 4. Update tests and examples
 
-The refactored implementation provides a clean, standards-compliant foundation for MCP memory management. 
+The refactored implementation provides a clean, standards-compliant foundation for MCP memory management.

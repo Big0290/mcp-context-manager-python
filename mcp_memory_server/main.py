@@ -4,21 +4,21 @@ Main FastAPI application for the MCP Memory Server.
 
 import asyncio
 from contextlib import asynccontextmanager
-from typing import Dict, Any
+from typing import Any, Dict
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+import mcp
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-import mcp
 from sqlalchemy.orm import Session
 
-from mcp_memory_server.config import settings
-from mcp_memory_server.database.base import create_tables, get_db
-from mcp_memory_server.api.memory import router as memory_router
 from mcp_memory_server.api.agents import router as agents_router
+from mcp_memory_server.api.memory import router as memory_router
 from mcp_memory_server.api.sessions import router as sessions_router
-from mcp_memory_server.core.memory_engine import MemoryEngine
+from mcp_memory_server.config import settings
 from mcp_memory_server.core.embedding_service import EmbeddingService
+from mcp_memory_server.core.memory_engine import MemoryEngine
+from mcp_memory_server.database.base import create_tables, get_db
 
 
 # WebSocket connection manager
@@ -53,9 +53,9 @@ async def lifespan(app: FastAPI):
     print("Starting MCP Memory Server...")
     create_tables()
     print("Database tables created successfully")
-    
+
     yield
-    
+
     # Shutdown
     print("Shutting down MCP Memory Server...")
 
@@ -65,7 +65,7 @@ app = FastAPI(
     title="MCP Memory Server",
     description="A robust Model Context Protocol server for long-term memory and context synchronization between AI agents",
     version="0.1.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Add CORS middleware
@@ -90,7 +90,7 @@ async def root():
         "message": "MCP Memory Server",
         "version": "0.1.0",
         "docs": "/docs",
-        "health": "/health"
+        "health": "/health",
     }
 
 
@@ -105,7 +105,7 @@ async def metrics():
     """Basic metrics endpoint."""
     return {
         "active_connections": len(manager.active_connections),
-        "service": "mcp-memory-server"
+        "service": "mcp-memory-server",
     }
 
 
@@ -125,17 +125,17 @@ async def websocket_endpoint(websocket: WebSocket, agent_id: str):
 
 # MCP Tools - Commented out for now due to import issues
 # These can be implemented as separate MCP server tools later
-# 
+#
 # async def push_memory(agent_id: str, content: str, memory_type: str = "fact", tags: str = "") -> str:
 #     """Push memory to the MCP server."""
 #     # Implementation would go here
 #     pass
-# 
+#
 # async def fetch_memory(agent_id: str, query: str = "", limit: int = 10) -> str:
 #     """Fetch relevant memory from the MCP server."""
 #     # Implementation would go here
 #     pass
-# 
+#
 # async def get_agent_stats(agent_id: str) -> str:
 #     """Get memory statistics for an agent."""
 #     # Implementation would go here
@@ -145,14 +145,14 @@ async def websocket_endpoint(websocket: WebSocket, agent_id: str):
 def main():
     """Main entry point for the MCP server."""
     import uvicorn
-    
+
     uvicorn.run(
         "mcp_memory_server.main:app",
         host=settings.host,
         port=settings.port,
-        reload=settings.debug
+        reload=settings.debug,
     )
 
 
 if __name__ == "__main__":
-    main() 
+    main()

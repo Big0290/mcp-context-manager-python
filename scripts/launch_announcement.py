@@ -14,20 +14,22 @@ from pathlib import Path
 from typing import Dict, List
 
 from rich.console import Console
-from rich.panel import Panel
 from rich.markdown import Markdown
+from rich.panel import Panel
 
 console = Console()
 
 
 class LaunchAnnouncementGenerator:
     """Generates launch announcements and marketing materials."""
-    
+
     def __init__(self):
         self.project_name = "MCP Context Manager with Brain-Enhanced Memory"
         self.github_url = "https://github.com/yourusername/mcp-context-manager-python"
-        self.docs_url = "https://github.com/yourusername/mcp-context-manager-python#readme"
-        
+        self.docs_url = (
+            "https://github.com/yourusername/mcp-context-manager-python#readme"
+        )
+
     def generate_github_announcement(self) -> str:
         """Generate a GitHub release announcement."""
         return f"""
@@ -119,7 +121,7 @@ We're building more than just a memory system - we're creating the foundation fo
 
 *Built with ❤️ for the AI development community*
 """
-    
+
     def generate_blog_post(self) -> str:
         """Generate a blog post for the launch."""
         return f"""
@@ -266,7 +268,7 @@ python src/brain_enhanced_mcp_server.py
 
 *What will you build with brain-like memory?*
 """
-    
+
     def generate_social_media_posts(self) -> Dict[str, str]:
         """Generate social media posts for different platforms."""
         posts = {
@@ -275,24 +277,24 @@ python src/brain_enhanced_mcp_server.py
                 "Transform your AI agent from a simple chatbot into an intelligent partner with human-like memory and reasoning capabilities.",
                 "Built with multilayered memory architecture, neural connections, and knowledge growth - just like the human brain.",
                 "Looking for contributors to help build the future of AI memory management! Check out our good first issues.",
-                "Every contribution, no matter how small, brings us closer to truly intelligent AI systems. Join our community!"
+                "Every contribution, no matter how small, brings us closer to truly intelligent AI systems. Join our community!",
             ],
             "linkedin": [
                 "🚀 Announcing the open source release of MCP Context Manager with Brain-Enhanced Memory",
                 "We've built a sophisticated Model Context Protocol (MCP) server that provides human brain-like memory management for AI agents.",
                 "Key features: Multilayered memory architecture, neural connections, knowledge growth, and MCP protocol compliance.",
                 "Looking for contributors in areas like brain system enhancements, visualization, integrations, and analytics.",
-                "Join us in building the future of AI memory management!"
+                "Join us in building the future of AI memory management!",
             ],
             "reddit": [
                 "🧠 [Open Source] MCP Context Manager with Brain-Enhanced Memory - A sophisticated MCP server that provides human brain-like memory management for AI agents",
                 "Features: Multilayered memory architecture, neural connections, knowledge growth, MCP protocol compliance",
                 "Looking for contributors! Good first issues available for new contributors.",
-                "Built with Python, supports Cursor, VS Code, and other MCP clients."
-            ]
+                "Built with Python, supports Cursor, VS Code, and other MCP clients.",
+            ],
         }
         return posts
-    
+
     def generate_newsletter_content(self) -> str:
         """Generate newsletter content for the launch."""
         return f"""
@@ -380,32 +382,32 @@ We're building more than just a memory system - we're creating the foundation fo
 
 *What will you build with brain-like memory?*
 """
-    
+
     def save_announcements(self, output_dir: str = "launch_materials") -> None:
         """Save all announcement materials to files."""
         output_path = Path(output_dir)
         output_path.mkdir(exist_ok=True)
-        
+
         # Save GitHub announcement
         github_announcement = self.generate_github_announcement()
         with open(output_path / "github_announcement.md", "w") as f:
             f.write(github_announcement)
-        
+
         # Save blog post
         blog_post = self.generate_blog_post()
         with open(output_path / "blog_post.md", "w") as f:
             f.write(blog_post)
-        
+
         # Save newsletter content
         newsletter = self.generate_newsletter_content()
         with open(output_path / "newsletter.md", "w") as f:
             f.write(newsletter)
-        
+
         # Save social media posts
         social_posts = self.generate_social_media_posts()
         with open(output_path / "social_media_posts.json", "w") as f:
             json.dump(social_posts, f, indent=2)
-        
+
         console.print(f"[green]✅ Launch materials saved to {output_path}[/green]")
         console.print(f"[blue]📁 Files created:[/blue]")
         console.print(f"  - github_announcement.md")
@@ -420,10 +422,10 @@ def main():
         console.print("[red]Usage: python launch_announcement.py <command>[/red]")
         console.print("Commands: github, blog, social, newsletter, all")
         return
-    
+
     command = sys.argv[1]
     generator = LaunchAnnouncementGenerator()
-    
+
     if command == "github":
         announcement = generator.generate_github_announcement()
         console.print(Panel(announcement, title="GitHub Announcement"))
@@ -443,4 +445,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()

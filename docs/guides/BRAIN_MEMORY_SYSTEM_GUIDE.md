@@ -198,7 +198,7 @@ The brain system provides rich insights about your knowledge patterns:
 
 Memory Layer Distribution:
 • Long-term: 45 memories
-• Procedural: 23 memories  
+• Procedural: 23 memories
 • Episodic: 15 memories
 • Short-term: 8 memories
 • Semantic: 12 memories
@@ -219,7 +219,7 @@ Top Knowledge Areas:
 
 Connection Patterns:
 • Semantic: 45 connections
-• Contextual: 32 connections  
+• Contextual: 32 connections
 • Temporal: 28 connections
 • Functional: 15 connections
 • Causal: 8 connections
@@ -241,7 +241,7 @@ Connections: 18
 Layers: long_term, procedural, episodic
 
 Long_term Layer: 5 memories
-Procedural Layer: 4 memories  
+Procedural Layer: 4 memories
 Episodic Layer: 3 memories
 
 Connections:
@@ -256,7 +256,7 @@ Connections:
 🛤️ Knowledge Path: useState → useCallback
 Path length: 3 hops
 
-1. React useState hook for state management → 
+1. React useState hook for state management →
 2. Performance optimization patterns in React →
 3. useCallback for memoizing functions
 ```
@@ -372,7 +372,7 @@ The brain system is designed for extensibility:
 The brain memory system is modular and extensible. Contributions welcome for:
 - New connection types
 - Enhanced classification algorithms
-- Memory visualization tools  
+- Memory visualization tools
 - Domain-specific hierarchies
 - Performance optimizations
 

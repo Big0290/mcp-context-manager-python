@@ -7,13 +7,14 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from mcp_memory_server.main import app
 from mcp_memory_server.database.base import Base
-
+from mcp_memory_server.main import app
 
 # Create test database
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Create tables
@@ -72,9 +73,9 @@ def test_register_agent(client):
         "name": "test_agent",
         "agent_type": "chatgpt",
         "project_id": "test_project",
-        "custom_metadata": {"test": "data"}
+        "custom_metadata": {"test": "data"},
     }
-    
+
     response = client.post("/api/v1/agents/register", json=agent_data)
     assert response.status_code == 200
     data = response.json()
@@ -90,12 +91,12 @@ def test_push_memory(client):
         "name": "test_agent_2",
         "agent_type": "chatgpt",
         "project_id": "test_project",
-        "custom_metadata": {}
+        "custom_metadata": {},
     }
-    
+
     agent_response = client.post("/api/v1/agents/register", json=agent_data)
     agent_id = agent_response.json()["id"]
-    
+
     # Push memory
     memory_data = {
         "agent_id": agent_id,
@@ -104,9 +105,9 @@ def test_push_memory(client):
         "memory_type": "fact",
         "tags": ["test", "memory"],
         "custom_metadata": {},
-        "is_short_term": False
+        "is_short_term": False,
     }
-    
+
     response = client.post("/api/v1/memory/push", json=memory_data)
     assert response.status_code == 200
     data = response.json()
@@ -122,12 +123,12 @@ def test_fetch_memories(client):
         "name": "test_agent_3",
         "agent_type": "chatgpt",
         "project_id": "test_project",
-        "custom_metadata": {}
+        "custom_metadata": {},
     }
-    
+
     agent_response = client.post("/api/v1/agents/register", json=agent_data)
     agent_id = agent_response.json()["id"]
-    
+
     # Push memory
     memory_data = {
         "agent_id": agent_id,
@@ -136,14 +137,14 @@ def test_fetch_memories(client):
         "memory_type": "fact",
         "tags": ["test", "fetch"],
         "custom_metadata": {},
-        "is_short_term": False
+        "is_short_term": False,
     }
-    
+
     client.post("/api/v1/memory/push", json=memory_data)
-    
+
     # Fetch memories
     response = client.get(f"/api/v1/memory/fetch?agent_id={agent_id}")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
-    assert len(data) > 0 
+    assert len(data) > 0

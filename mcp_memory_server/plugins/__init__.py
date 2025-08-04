@@ -6,8 +6,4 @@ from .base import BasePlugin
 from .calendar_plugin import CalendarPlugin
 from .git_plugin import GitPlugin
 
-__all__ = [
-    "BasePlugin",
-    "CalendarPlugin", 
-    "GitPlugin"
-] 
+__all__ = ["BasePlugin", "CalendarPlugin", "GitPlugin"]

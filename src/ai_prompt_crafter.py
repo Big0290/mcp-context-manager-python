@@ -8,15 +8,16 @@ contextual prompts for better AI interactions.
 
 import json
 import logging
-from typing import Dict, List, Any, Optional
-from datetime import datetime
 import re
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class PromptType(Enum):
     """Types of AI prompts that can be crafted."""
+
     CONTINUATION = "continuation"
     TASK_FOCUSED = "task_focused"
     PROBLEM_SOLVING = "problem_solving"
@@ -29,6 +30,7 @@ class PromptType(Enum):
 @dataclass
 class PromptContext:
     """Context information for prompt crafting."""
+
     project_id: str
     user_intent: Optional[str] = None
     focus_areas: List[str] = None
@@ -42,11 +44,11 @@ class AIPromptCrafter:
     Intelligent AI prompt crafter that uses context summaries to generate
     contextual and effective prompts for AI interactions.
     """
-    
+
     def __init__(self, mcp_server=None):
         self.mcp_server = mcp_server
         self.logger = logging.getLogger(__name__)
-        
+
         # Prompt templates for different scenarios
         self.prompt_templates = {
             PromptType.CONTINUATION: self._create_continuation_prompt,
@@ -55,66 +57,74 @@ class AIPromptCrafter:
             PromptType.EXPLANATION: self._create_explanation_prompt,
             PromptType.CODE_REVIEW: self._create_code_review_prompt,
             PromptType.DEBUGGING: self._create_debugging_prompt,
-            PromptType.GENERAL: self._create_general_prompt
+            PromptType.GENERAL: self._create_general_prompt,
         }
-    
-    async def craft_ai_prompt(self, context: PromptContext, user_message: str = None) -> str:
+
+    async def craft_ai_prompt(
+        self, context: PromptContext, user_message: str = None
+    ) -> str:
         """
         Craft an intelligent AI prompt using context summary and user input.
-        
+
         Args:
             context: PromptContext object with project and intent information
             user_message: Optional user message to incorporate into prompt
-            
+
         Returns:
             Crafted AI prompt string
         """
         try:
             # Get context summary from MCP server
             context_summary = await self._get_context_summary(context)
-            
+
             # Analyze context and user intent
             analysis = self._analyze_context(context_summary, user_message)
-            
+
             # Determine prompt type based on analysis
             prompt_type = self._determine_prompt_type(analysis, context.prompt_type)
-            
+
             # Craft the prompt using appropriate template
             crafted_prompt = self.prompt_templates[prompt_type](
                 context_summary, analysis, user_message, context
             )
-            
-            self.logger.info(f"Crafted {prompt_type.value} prompt for project: {context.project_id}")
+
+            self.logger.info(
+                f"Crafted {prompt_type.value} prompt for project: {context.project_id}"
+            )
             return crafted_prompt
-            
+
         except Exception as e:
             self.logger.error(f"Error crafting AI prompt: {e}")
             return self._create_fallback_prompt(context, user_message)
-    
+
     async def _get_context_summary(self, context: PromptContext) -> str:
         """Get context summary from MCP server."""
         if not self.mcp_server:
             return "No MCP server available for context retrieval."
-        
+
         try:
-            result = await self.mcp_server._get_context_summary({
-                "project_id": context.project_id,
-                "max_memories": context.max_memories,
-                "include_recent": context.include_recent,
-                "focus_areas": context.focus_areas or []
-            })
-            
+            result = await self.mcp_server._get_context_summary(
+                {
+                    "project_id": context.project_id,
+                    "max_memories": context.max_memories,
+                    "include_recent": context.include_recent,
+                    "focus_areas": context.focus_areas or [],
+                }
+            )
+
             if result.get("isError", False):
                 return "Error retrieving context summary."
-            
+
             content = result.get("content", [{}])[0].get("text", "")
             return content if content else "No context available."
-            
+
         except Exception as e:
             self.logger.error(f"Error getting context summary: {e}")
             return "Unable to retrieve context summary."
-    
-    def _analyze_context(self, context_summary: str, user_message: str = None) -> Dict[str, Any]:
+
+    def _analyze_context(
+        self, context_summary: str, user_message: str = None
+    ) -> Dict[str, Any]:
         """Analyze context summary and user message to extract key information."""
         analysis = {
             "has_tasks": False,
@@ -124,71 +134,95 @@ class AIPromptCrafter:
             "priority_levels": [],
             "technologies": [],
             "user_intent": "general",
-            "key_topics": []
+            "key_topics": [],
         }
-        
+
         # Analyze context summary
         if context_summary:
             analysis["has_tasks"] = "task" in context_summary.lower()
-            analysis["has_problems"] = any(word in context_summary.lower() 
-                                         for word in ["error", "bug", "issue", "problem", "fix"])
-            analysis["has_code"] = any(word in context_summary.lower() 
-                                     for word in ["code", "implementation", "function", "class"])
+            analysis["has_problems"] = any(
+                word in context_summary.lower()
+                for word in ["error", "bug", "issue", "problem", "fix"]
+            )
+            analysis["has_code"] = any(
+                word in context_summary.lower()
+                for word in ["code", "implementation", "function", "class"]
+            )
             analysis["has_questions"] = "?" in context_summary
-            
+
             # Extract priority levels
-            priority_pattern = r'\[(HIGH|MEDIUM|LOW)\]'
+            priority_pattern = r"\[(HIGH|MEDIUM|LOW)\]"
             analysis["priority_levels"] = re.findall(priority_pattern, context_summary)
-            
+
             # Extract technologies
-            tech_keywords = ["python", "javascript", "react", "mcp", "sql", "api", "docker"]
-            analysis["technologies"] = [tech for tech in tech_keywords 
-                                      if tech in context_summary.lower()]
-            
+            tech_keywords = [
+                "python",
+                "javascript",
+                "react",
+                "mcp",
+                "sql",
+                "api",
+                "docker",
+            ]
+            analysis["technologies"] = [
+                tech for tech in tech_keywords if tech in context_summary.lower()
+            ]
+
             # Extract key topics
             analysis["key_topics"] = self._extract_key_topics(context_summary)
-        
+
         # Analyze user message
         if user_message:
             analysis["user_intent"] = self._determine_user_intent(user_message)
-            
+
             # Update analysis based on user message
-            if any(word in user_message.lower() for word in ["explain", "how", "what", "why"]):
+            if any(
+                word in user_message.lower()
+                for word in ["explain", "how", "what", "why"]
+            ):
                 analysis["has_questions"] = True
-            if any(word in user_message.lower() for word in ["fix", "error", "bug", "problem"]):
+            if any(
+                word in user_message.lower()
+                for word in ["fix", "error", "bug", "problem"]
+            ):
                 analysis["has_problems"] = True
-            if any(word in user_message.lower() for word in ["implement", "create", "build", "code"]):
+            if any(
+                word in user_message.lower()
+                for word in ["implement", "create", "build", "code"]
+            ):
                 analysis["has_tasks"] = True
-        
+
         return analysis
-    
+
     def _extract_key_topics(self, context_summary: str) -> List[str]:
         """Extract key topics from context summary."""
         topics = []
-        
+
         # Look for common topic indicators
         topic_patterns = [
-            r'Tags: ([^,\n]+)',
-            r'\*\*([^*]+)\*\*:',
-            r'🎯 Key Priorities:',
-            r'📋 Context Summary'
+            r"Tags: ([^,\n]+)",
+            r"\*\*([^*]+)\*\*:",
+            r"🎯 Key Priorities:",
+            r"📋 Context Summary",
         ]
-        
+
         for pattern in topic_patterns:
             matches = re.findall(pattern, context_summary)
             topics.extend(matches)
-        
+
         return list(set(topics))  # Remove duplicates
-    
+
     def _determine_user_intent(self, user_message: str) -> str:
         """Determine user intent from message."""
         message_lower = user_message.lower()
-        
+
         if any(word in message_lower for word in ["explain", "how", "what", "why"]):
             return "explanation"
         elif any(word in message_lower for word in ["fix", "error", "bug", "problem"]):
             return "problem_solving"
-        elif any(word in message_lower for word in ["implement", "create", "build", "code"]):
+        elif any(
+            word in message_lower for word in ["implement", "create", "build", "code"]
+        ):
             return "task"
         elif any(word in message_lower for word in ["review", "check", "examine"]):
             return "review"
@@ -196,13 +230,14 @@ class AIPromptCrafter:
             return "debugging"
         else:
             return "general"
-    
-    def _determine_prompt_type(self, analysis: Dict[str, Any], 
-                              requested_type: PromptType) -> PromptType:
+
+    def _determine_prompt_type(
+        self, analysis: Dict[str, Any], requested_type: PromptType
+    ) -> PromptType:
         """Determine the best prompt type based on analysis."""
         if requested_type != PromptType.GENERAL:
             return requested_type
-        
+
         # Auto-determine based on analysis
         if analysis["has_problems"]:
             return PromptType.PROBLEM_SOLVING
@@ -214,9 +249,14 @@ class AIPromptCrafter:
             return PromptType.CODE_REVIEW
         else:
             return PromptType.CONTINUATION
-    
-    def _create_continuation_prompt(self, context_summary: str, analysis: Dict[str, Any], 
-                                   user_message: str, context: PromptContext) -> str:
+
+    def _create_continuation_prompt(
+        self,
+        context_summary: str,
+        analysis: Dict[str, Any],
+        user_message: str,
+        context: PromptContext,
+    ) -> str:
         """Create a continuation prompt for ongoing conversations."""
         prompt = f"""🤖 **AI Assistant with Context Awareness**
 
@@ -240,11 +280,16 @@ class AIPromptCrafter:
 - Be concise but comprehensive
 
 Please continue helping with the project:"""
-        
+
         return prompt
-    
-    def _create_task_focused_prompt(self, context_summary: str, analysis: Dict[str, Any], 
-                                   user_message: str, context: PromptContext) -> str:
+
+    def _create_task_focused_prompt(
+        self,
+        context_summary: str,
+        analysis: Dict[str, Any],
+        user_message: str,
+        context: PromptContext,
+    ) -> str:
         """Create a task-focused prompt for implementation work."""
         prompt = f"""🚀 **Task-Focused AI Assistant**
 
@@ -269,11 +314,16 @@ Please continue helping with the project:"""
 - Address potential challenges and solutions
 
 Ready to help with implementation:"""
-        
+
         return prompt
-    
-    def _create_problem_solving_prompt(self, context_summary: str, analysis: Dict[str, Any], 
-                                     user_message: str, context: PromptContext) -> str:
+
+    def _create_problem_solving_prompt(
+        self,
+        context_summary: str,
+        analysis: Dict[str, Any],
+        user_message: str,
+        context: PromptContext,
+    ) -> str:
         """Create a problem-solving focused prompt."""
         prompt = f"""🔧 **Problem-Solving AI Assistant**
 
@@ -298,11 +348,16 @@ Ready to help with implementation:"""
 - Reference relevant documentation or resources
 
 Ready to help solve the problem:"""
-        
+
         return prompt
-    
-    def _create_explanation_prompt(self, context_summary: str, analysis: Dict[str, Any], 
-                                  user_message: str, context: PromptContext) -> str:
+
+    def _create_explanation_prompt(
+        self,
+        context_summary: str,
+        analysis: Dict[str, Any],
+        user_message: str,
+        context: PromptContext,
+    ) -> str:
         """Create an explanation-focused prompt."""
         prompt = f"""📚 **Educational AI Assistant**
 
@@ -326,11 +381,16 @@ Ready to help solve the problem:"""
 - Suggest learning resources
 
 Ready to explain:"""
-        
+
         return prompt
-    
-    def _create_code_review_prompt(self, context_summary: str, analysis: Dict[str, Any], 
-                                  user_message: str, context: PromptContext) -> str:
+
+    def _create_code_review_prompt(
+        self,
+        context_summary: str,
+        analysis: Dict[str, Any],
+        user_message: str,
+        context: PromptContext,
+    ) -> str:
         """Create a code review focused prompt."""
         prompt = f"""🔍 **Code Review AI Assistant**
 
@@ -354,11 +414,16 @@ Ready to explain:"""
 - Provide specific recommendations
 
 Ready to review code:"""
-        
+
         return prompt
-    
-    def _create_debugging_prompt(self, context_summary: str, analysis: Dict[str, Any], 
-                                user_message: str, context: PromptContext) -> str:
+
+    def _create_debugging_prompt(
+        self,
+        context_summary: str,
+        analysis: Dict[str, Any],
+        user_message: str,
+        context: PromptContext,
+    ) -> str:
         """Create a debugging focused prompt."""
         prompt = f"""🐛 **Debugging AI Assistant**
 
@@ -382,11 +447,16 @@ Ready to review code:"""
 - Prevention strategies
 
 Ready to help debug:"""
-        
+
         return prompt
-    
-    def _create_general_prompt(self, context_summary: str, analysis: Dict[str, Any], 
-                              user_message: str, context: PromptContext) -> str:
+
+    def _create_general_prompt(
+        self,
+        context_summary: str,
+        analysis: Dict[str, Any],
+        user_message: str,
+        context: PromptContext,
+    ) -> str:
         """Create a general-purpose prompt."""
         prompt = f"""🤖 **AI Assistant with Context**
 
@@ -410,9 +480,9 @@ Ready to help debug:"""
 - Be concise but comprehensive
 
 Ready to help:"""
-        
+
         return prompt
-    
+
     def _create_fallback_prompt(self, context: PromptContext, user_message: str) -> str:
         """Create a fallback prompt when context retrieval fails."""
         prompt = f"""🤖 **AI Assistant**
@@ -430,47 +500,47 @@ Ready to help:"""
 - Suggest next steps
 
 Ready to help:"""
-        
+
         return prompt
 
 
 # Utility functions for easy integration
-async def craft_prompt_for_project(project_id: str, user_message: str = None, 
-                                 prompt_type: PromptType = PromptType.GENERAL,
-                                 mcp_server=None) -> str:
+async def craft_prompt_for_project(
+    project_id: str,
+    user_message: str = None,
+    prompt_type: PromptType = PromptType.GENERAL,
+    mcp_server=None,
+) -> str:
     """
     Convenience function to craft a prompt for a specific project.
-    
+
     Args:
         project_id: Project identifier
         user_message: Optional user message
         prompt_type: Type of prompt to craft
         mcp_server: MCP server instance
-        
+
     Returns:
         Crafted AI prompt string
     """
     crafter = AIPromptCrafter(mcp_server)
-    context = PromptContext(
-        project_id=project_id,
-        prompt_type=prompt_type
-    )
-    
+    context = PromptContext(project_id=project_id, prompt_type=prompt_type)
+
     return await crafter.craft_ai_prompt(context, user_message)
 
 
-async def craft_intelligent_prompt(project_id: str, user_message: str, 
-                                 focus_areas: List[str] = None,
-                                 mcp_server=None) -> str:
+async def craft_intelligent_prompt(
+    project_id: str, user_message: str, focus_areas: List[str] = None, mcp_server=None
+) -> str:
     """
     Craft an intelligent prompt that auto-detects the best approach.
-    
+
     Args:
         project_id: Project identifier
         user_message: User message to analyze
         focus_areas: Specific areas to focus on
         mcp_server: MCP server instance
-        
+
     Returns:
         Crafted AI prompt string
     """
@@ -478,7 +548,7 @@ async def craft_intelligent_prompt(project_id: str, user_message: str,
     context = PromptContext(
         project_id=project_id,
         focus_areas=focus_areas,
-        prompt_type=PromptType.GENERAL  # Will be auto-detected
+        prompt_type=PromptType.GENERAL,  # Will be auto-detected
     )
-    
-    return await crafter.craft_ai_prompt(context, user_message) 
+
+    return await crafter.craft_ai_prompt(context, user_message)

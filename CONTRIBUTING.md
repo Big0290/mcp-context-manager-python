@@ -115,17 +115,17 @@ We're looking for contributions in these areas:
 ```python
 # Good: Clear, descriptive names with type hints
 async def search_similar_memories(
-    self, 
-    query: str, 
+    self,
+    query: str,
     similarity_threshold: float = 0.7
 ) -> List[MemoryNode]:
     """
     Search for memories similar to the given query.
-    
+
     Args:
         query: The search query string
         similarity_threshold: Minimum similarity score (0.0 to 1.0)
-    
+
     Returns:
         List of memory nodes matching the criteria
     """
@@ -150,12 +150,12 @@ from src.brain_memory_system import BrainMemorySystem
 
 class TestBrainMemorySystem:
     """Test suite for brain memory system functionality."""
-    
+
     @pytest.fixture
     def brain_system(self):
         """Create a test brain memory system."""
         return BrainMemorySystem(":memory:")  # Use in-memory DB for tests
-    
+
     async def test_memory_creation(self, brain_system):
         """Test that memories are created correctly."""
         memory_data = {
@@ -163,9 +163,9 @@ class TestBrainMemorySystem:
             "memory_type": "fact",
             "tags": ["test"]
         }
-        
+
         result = await brain_system.enhance_existing_memory("test_id", memory_data)
-        
+
         assert result.content == "Test memory content"
         assert result.memory_type == "fact"
         assert "test" in result.tags

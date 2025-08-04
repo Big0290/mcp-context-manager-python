@@ -32,4 +32,4 @@ test_brain_mcp.py @yourusername
 examples/ @yourusername
 
 # GitHub workflows and templates
-.github/ @yourusername 
+.github/ @yourusername

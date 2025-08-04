@@ -16,7 +16,7 @@ SHORT_TERM     ← Working memory, temporary storage (< 50 items)
     ↓ (promotion based on usage)
 LONG_TERM      ← Persistent knowledge and facts
     ↓ (specialization based on content)
-EPISODIC       ← Specific events and experiences  
+EPISODIC       ← Specific events and experiences
 PROCEDURAL     ← Skills and learned patterns
 SEMANTIC       ← Conceptual knowledge and relationships
 ```
@@ -36,12 +36,12 @@ class MemoryMetadata:
     access_count: int = 0
     last_accessed: datetime
     reinforcement_count: int = 0
-    
-    # Brain-like attributes  
+
+    # Brain-like attributes
     emotional_weight: float = 0.0      # Importance (0.0-1.0)
     integration_depth: float = 0.0     # How embedded in knowledge
     decay_rate: float = 0.1            # Forgetting curve
-    
+
     # Classification
     memory_layer: MemoryLayer
     memory_state: MemoryState
@@ -54,7 +54,7 @@ class MemoryMetadata:
 #### Connection Types
 ```
 SEMANTIC     ← Conceptual similarity ("React" ↔ "Vue")
-TEMPORAL     ← Time-based sequence ("Step 1" → "Step 2") 
+TEMPORAL     ← Time-based sequence ("Step 1" → "Step 2")
 CAUSAL       ← Cause-effect ("Bug" → "Fix")
 CONTEXTUAL   ← Same project/context
 FUNCTIONAL   ← Similar tools/techniques ("useState" ↔ "useReducer")
@@ -63,7 +63,7 @@ ANALOGICAL   ← Similar patterns across domains
 
 #### Connection Structure
 ```python
-@dataclass  
+@dataclass
 class MemoryConnection:
     source_memory_id: str
     target_memory_id: str
@@ -76,7 +76,7 @@ class MemoryConnection:
 #### Graph Operations
 - **Auto-connection Discovery**: Semantic similarity (>0.7 threshold)
 - **Contextual Linking**: Same project/tags
-- **Temporal Linking**: Recent memories  
+- **Temporal Linking**: Recent memories
 - **Connection Decay**: Weak connections pruned over time
 - **Graph Traversal**: Multi-hop knowledge discovery
 
@@ -87,16 +87,16 @@ class MemoryConnection:
 async def search_memories_with_context():
     # 1. Direct content matches
     direct_matches = search_direct_matches(query)
-    
+
     # 2. Semantic similarity (embeddings)
     similar_experiences = search_similar_experiences(query_embedding)
-    
+
     # 3. Connected knowledge (graph traversal)
     connected_knowledge = search_connected_knowledge(matches, depth=2)
-    
+
     # 4. Analogical patterns
     analogies = find_analogical_patterns(results)
-    
+
     return combine_and_rank_results(...)
 ```
 
@@ -114,14 +114,14 @@ async def search_memories_with_context():
 if access_count >= 10:
     promote_to_consolidated()
 if temporal_pattern_detected():
-    promote_to_episodic()  
+    promote_to_episodic()
 if procedure_pattern_detected():
     promote_to_procedural()
 ```
 
 #### Knowledge Integration Depth
 - **Shallow (0.0-0.3)**: Isolated facts
-- **Moderate (0.3-0.7)**: Connected to some knowledge  
+- **Moderate (0.3-0.7)**: Connected to some knowledge
 - **Deep (0.7-1.0)**: Highly integrated, foundational
 
 #### Memory Consolidation Process
@@ -138,7 +138,7 @@ Programming
 ├── Frontend
 │   ├── React
 │   │   ├── Hooks
-│   │   ├── Components  
+│   │   ├── Components
 │   │   └── State Management
 │   ├── Vue
 │   └── Angular
@@ -184,7 +184,7 @@ Development
 - Connection graph operations
 - Classification and promotion logic
 
-#### 2. **BrainIntegration** (`src/brain_integration.py`)  
+#### 2. **BrainIntegration** (`src/brain_integration.py`)
 - Integration layer with existing MCP server
 - Enhanced tool execution
 - Backward compatibility preservation
@@ -216,7 +216,7 @@ CREATE TABLE brain_memory_nodes (
 );
 ```
 
-#### Memory Connections Table  
+#### Memory Connections Table
 ```sql
 CREATE TABLE brain_memory_connections (
     id TEXT PRIMARY KEY,
@@ -308,7 +308,7 @@ return enhanced_summary
 ```python
 # All existing tools work identically
 await server.execute_tool("push_memory", existing_args)
-await server.execute_tool("fetch_memory", existing_args)  
+await server.execute_tool("fetch_memory", existing_args)
 await server.execute_tool("get_context_summary", existing_args)
 
 # Brain features are purely additive
@@ -320,7 +320,7 @@ await server.execute_tool("search_similar_experiences", brain_args)
 # Enable brain features (default)
 python src/brain_enhanced_mcp_server.py
 
-# Disable brain features (original functionality)  
+# Disable brain features (original functionality)
 python src/brain_enhanced_mcp_server.py --no-brain
 ```
 
@@ -348,7 +348,7 @@ python src/brain_enhanced_mcp_server.py --no-brain
 ```python
 # Automatic maintenance (every hour)
 await promote_memory_layers()           # Update memory states
-await cleanup_weak_connections()        # Remove low-strength connections  
+await cleanup_weak_connections()        # Remove low-strength connections
 await update_integration_depths()       # Recalculate integration scores
 await generate_recommendations()        # AI-powered suggestions
 ```
@@ -416,7 +416,7 @@ await promote_memory_knowledge({
 - **Pattern Recognition**: Identify recurring themes and solutions
 - **Knowledge Gaps**: Discover missing connections in understanding
 
-### For Developers  
+### For Developers
 - **Zero Migration**: Existing code works unchanged
 - **Gradual Adoption**: Enable brain features when ready
 - **Rich APIs**: New tools for advanced memory operations
@@ -435,7 +435,7 @@ await promote_memory_knowledge({
 {
   "mcpServers": {
     "mcp-context-manager": {
-      "command": "python", 
+      "command": "python",
       "args": ["src/brain_enhanced_mcp_server.py"],
       "cwd": "/path/to/mcp-context-manager-python"
     }

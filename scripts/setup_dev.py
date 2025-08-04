@@ -3,10 +3,11 @@
 Developer setup script for MCP Memory Server
 """
 
+import shutil
 import subprocess
 import sys
-import shutil
 from pathlib import Path
+
 from config import Config
 
 
@@ -14,7 +15,9 @@ def run_command(command: str, description: str) -> bool:
     """Run a command and handle errors."""
     print(f"🔄 {description}...")
     try:
-        result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
+        result = subprocess.run(
+            command, shell=True, check=True, capture_output=True, text=True
+        )
         print(f"✅ {description} completed successfully")
         return True
     except subprocess.CalledProcessError as e:
@@ -36,15 +39,15 @@ def check_python_version():
 def setup_directories():
     """Create necessary directories."""
     print("📁 Setting up directories...")
-    
+
     directories = [
         Config.DATA_DIR,
         Config.LOGS_DIR,
         Path("examples"),
         Path("tests"),
-        Path("docs")
+        Path("docs"),
     ]
-    
+
     for directory in directories:
         directory.mkdir(exist_ok=True)
         print(f"✅ Created directory: {directory}")
@@ -53,14 +56,14 @@ def setup_directories():
 def setup_database():
     """Initialize database files."""
     print("🗄️ Setting up databases...")
-    
+
     # Move existing database files to data directory
     db_files = [
         ("simple_mcp_memory.db", Config.SIMPLE_DB_PATH),
         ("mcp_memory.db", Config.FULL_DB_PATH),
-        ("mcp_performance.db", Config.PERFORMANCE_DB_PATH)
+        ("mcp_performance.db", Config.PERFORMANCE_DB_PATH),
     ]
-    
+
     for old_path, new_path in db_files:
         old_file = Path(old_path)
         if old_file.exists():
@@ -89,7 +92,7 @@ MCP_DB_TYPE=simple  # simple or full
 MCP_AUTO_CONTEXT_INJECTION=true
 MCP_SHOW_CONTEXT_SUMMARY=true
 """
-    
+
     env_file = Path(".env.example")
     if not env_file.exists():
         with open(env_file, "w") as f:
@@ -100,14 +103,14 @@ MCP_SHOW_CONTEXT_SUMMARY=true
 def test_server():
     """Test if the server can start."""
     print("🧪 Testing server startup...")
-    
+
     try:
         # Test simple server
         result = subprocess.run(
             [sys.executable, "src/simple_mcp_server.py"],
             timeout=5,
             capture_output=True,
-            text=True
+            text=True,
         )
         print("✅ Simple server test completed")
         return True
@@ -170,7 +173,7 @@ python -m pytest tests/
 
 Performance data is stored in `data/mcp_performance.db`
 """
-    
+
     guide_file = Path("QUICK_START.md")
     with open(guide_file, "w") as f:
         f.write(guide)
@@ -181,23 +184,23 @@ def main():
     """Main setup function."""
     print("🚀 MCP Memory Server - Developer Setup")
     print("=" * 50)
-    
+
     # Check Python version
     if not check_python_version():
         sys.exit(1)
-    
+
     # Setup directories
     setup_directories()
-    
+
     # Setup database
     setup_database()
-    
+
     # Create environment example
     create_env_example()
-    
+
     # Create quick start guide
     create_quick_start_guide()
-    
+
     # Test server
     if test_server():
         print("\n🎉 Setup completed successfully!")
@@ -211,4 +214,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()

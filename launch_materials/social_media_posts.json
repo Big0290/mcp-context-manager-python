@@ -1,0 +1,22 @@
+{
+  "twitter": [
+    "\ud83e\udde0 Excited to announce the open source release of MCP Context Manager with Brain-Enhanced Memory!",
+    "Transform your AI agent from a simple chatbot into an intelligent partner with human-like memory and reasoning capabilities.",
+    "Built with multilayered memory architecture, neural connections, and knowledge growth - just like the human brain.",
+    "Looking for contributors to help build the future of AI memory management! Check out our good first issues.",
+    "Every contribution, no matter how small, brings us closer to truly intelligent AI systems. Join our community!"
+  ],
+  "linkedin": [
+    "\ud83d\ude80 Announcing the open source release of MCP Context Manager with Brain-Enhanced Memory",
+    "We've built a sophisticated Model Context Protocol (MCP) server that provides human brain-like memory management for AI agents.",
+    "Key features: Multilayered memory architecture, neural connections, knowledge growth, and MCP protocol compliance.",
+    "Looking for contributors in areas like brain system enhancements, visualization, integrations, and analytics.",
+    "Join us in building the future of AI memory management!"
+  ],
+  "reddit": [
+    "\ud83e\udde0 [Open Source] MCP Context Manager with Brain-Enhanced Memory - A sophisticated MCP server that provides human brain-like memory management for AI agents",
+    "Features: Multilayered memory architecture, neural connections, knowledge growth, MCP protocol compliance",
+    "Looking for contributors! Good first issues available for new contributors.",
+    "Built with Python, supports Cursor, VS Code, and other MCP clients."
+  ]
+}
