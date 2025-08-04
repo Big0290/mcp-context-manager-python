@@ -6,7 +6,6 @@ import asyncio
 from contextlib import asynccontextmanager
 from typing import Any, Dict
 
-import mcp
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
