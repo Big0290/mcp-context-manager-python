@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "mcp-brain-context-manager": {
+      "command": "/path/to/mcp-context-manager-python/.venv/bin/python",
+      "args": [
+        "/path/to/mcp-context-manager-python/src/brain_enhanced_mcp_server.py"
+      ],
+      "cwd": "/path/to/mcp-context-manager-python",
+      "env": {
+        "MCP_PROJECT_ID": "cursor-workspace",
+        "MCP_LOG_LEVEL": "INFO",
+        "MCP_PERFORMANCE_MONITORING": "true",
+        "PYTHONPATH": "/path/to/mcp-context-manager-python"
+      }
+    }
+  }
+}

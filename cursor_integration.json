@@ -1,0 +1,140 @@
+{
+  "mcpServers": {
+    "mcp-memory-server": {
+      "command": "python3",
+      "args": [
+        "/path/to/mcp-context-manager-python/src/simple_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "/path/to/mcp-context-manager-python",
+        "MCP_LOG_LEVEL": "INFO"
+      },
+      "autoContextInjection": true,
+      "contextSettings": {
+        "maxMemories": 10,
+        "includeRecent": true,
+        "focusAreas": [
+          "python",
+          "typescript",
+          "javascript",
+          "react",
+          "node",
+          "development",
+          "debugging",
+          "testing"
+        ],
+        "autoInjectOnSessionStart": true,
+        "showContextSummary": true,
+        "useAIPromptCrafting": true,
+        "dynamicProjectDetection": true,
+        "autoDetectProjectOnStart": true
+      }
+    }
+  },
+  "commands": {
+    "auto-inject-context": {
+      "description": "Automatically inject context for new conversation",
+      "action": "mcp:auto_inject_context",
+      "shortcut": "cmd+shift+i",
+      "arguments": {
+        "max_memories": 10,
+        "include_recent": true,
+        "use_ai_crafting": true,
+        "show_notification": true
+      }
+    },
+    "context-summary": {
+      "description": "Get context summary for current project",
+      "action": "mcp:get_context_summary",
+      "shortcut": "cmd+shift+c",
+      "arguments": {
+        "max_memories": 10,
+        "include_recent": true
+      }
+    },
+    "craft-context": {
+      "description": "Craft intelligent AI prompt with context",
+      "action": "mcp:craft_ai_prompt",
+      "shortcut": "cmd+shift+p",
+      "arguments": {
+        "user_message": "Continue helping with the project based on our previous work",
+        "prompt_type": "continuation",
+        "focus_areas": [
+          "python",
+          "typescript",
+          "javascript",
+          "react",
+          "node",
+          "development"
+        ]
+      }
+    },
+    "search-memories": {
+      "description": "Search project memories",
+      "action": "mcp:fetch_memory",
+      "shortcut": "cmd+shift+m",
+      "arguments": {
+        "limit": 10
+      }
+    },
+    "add-memory": {
+      "description": "Add memory to current project",
+      "action": "mcp:push_memory",
+      "shortcut": "cmd+shift+a",
+      "arguments": {
+        "memory_type": "fact",
+        "priority": "medium"
+      }
+    },
+    "start-recording": {
+      "description": "Start automatic conversation recording",
+      "action": "mcp:start_conversation_recording",
+      "shortcut": "cmd+shift+r",
+      "arguments": {
+        "auto_record_user_messages": true,
+        "auto_record_ai_responses": true
+      }
+    }
+  },
+  "autoInjection": {
+    "enabled": true,
+    "triggerEvents": [
+      "chat.session.start",
+      "workspace.open",
+      "project.load",
+      "conversation.start",
+      "file.open",
+      "terminal.open"
+    ],
+    "contextFormat": "structured",
+    "maxContextLength": 2000,
+    "priorityThreshold": "medium",
+    "fallbackToManual": true,
+    "dynamicProjectDetection": true,
+    "autoDetectOnTrigger": true,
+    "showInjectionNotification": true
+  },
+  "settings": {
+    "debugMode": false,
+    "logLevel": "INFO",
+    "autoRestartServer": true,
+    "connectionTimeout": 30,
+    "projectDetection": {
+      "enabled": true,
+      "methods": [
+        "pyproject.toml",
+        "package.json",
+        "directory.name"
+      ],
+      "fallbackProjectId": "workspace"
+    },
+    "contextInjection": {
+      "enabled": true,
+      "autoInjectOnSessionStart": true,
+      "showContextSummary": true,
+      "useAIPromptCrafting": true,
+      "maxMemories": 10,
+      "includeRecent": true
+    }
+  }
+}

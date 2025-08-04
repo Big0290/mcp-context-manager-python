@@ -1,0 +1,35 @@
+# Global owners
+* @yourusername
+
+# Core brain system
+src/brain_memory_system.py @yourusername
+src/brain_enhanced_mcp_server.py @yourusername
+src/brain_integration.py @yourusername
+
+# MCP protocol and server
+src/mcp_server.py @yourusername
+src/simple_mcp_server.py @yourusername
+src/brain_extension_server.py @yourusername
+
+# Documentation
+docs/ @yourusername
+README.md @yourusername
+CONTRIBUTING.md @yourusername
+
+# Configuration and setup
+config.py @yourusername
+pyproject.toml @yourusername
+requirements.txt @yourusername
+
+# Scripts and utilities
+scripts/ @yourusername
+
+# Tests
+tests/ @yourusername
+test_brain_mcp.py @yourusername
+
+# Examples
+examples/ @yourusername
+
+# GitHub workflows and templates
+.github/ @yourusername 
