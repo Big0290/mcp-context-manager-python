@@ -301,9 +301,11 @@ class PerformanceMonitor:
             "overall_stats": {
                 "total_events": overall_stats[0],
                 "avg_duration_ms": overall_stats[1],
-                "success_rate": (overall_stats[2] / overall_stats[0]) * 100
-                if overall_stats[0] > 0
-                else 0,
+                "success_rate": (
+                    (overall_stats[2] / overall_stats[0]) * 100
+                    if overall_stats[0] > 0
+                    else 0
+                ),
                 "unique_projects": overall_stats[3],
             },
             "event_breakdown": [
