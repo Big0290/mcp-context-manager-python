@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Optional
 class PerformanceMonitor:
     def __init__(self, db_path: str = "performance_metrics.db"):
         self.db_path = db_path
-        self.metrics_queue = queue.Queue()
+        self.metrics_queue: queue.Queue[Dict[str, Any]] = queue.Queue()
         self.is_monitoring = False
         self.monitor_thread = None
         self._init_database()

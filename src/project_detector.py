@@ -28,11 +28,12 @@ def detect_project_name(workspace_path: Optional[str] = None) -> str:
     if pyproject_path.exists():
         try:
             import tomllib
+            from typing import Any
 
             with open(pyproject_path, "rb") as f:
-                data = tomllib.load(f)
+                data: dict[str, Any] = tomllib.load(f)
                 if "project" in data and "name" in data["project"]:
-                    return data["project"]["name"]
+                    return str(data["project"]["name"])
         except Exception:
             pass
 
@@ -41,11 +42,12 @@ def detect_project_name(workspace_path: Optional[str] = None) -> str:
     if package_json_path.exists():
         try:
             import json
+            from typing import Any
 
             with open(package_json_path, "r") as f:
-                data = json.load(f)
+                data: dict[str, Any] = json.load(f)
                 if "name" in data:
-                    return data["name"]
+                    return str(data["name"])
         except Exception:
             pass
 

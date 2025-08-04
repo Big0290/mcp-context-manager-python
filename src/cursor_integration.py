@@ -16,7 +16,7 @@ class CursorContextInjector:
     def __init__(self, project_path: str):
         self.project_path = Path(project_path)
         self.mcp_server_process = None
-        self.context_cache = {}
+        self.context_cache: dict[str, Any] = {}
 
     def start_mcp_server(self):
         """Start the MCP server process."""
