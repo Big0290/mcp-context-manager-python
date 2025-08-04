@@ -2,7 +2,7 @@
 Configuration settings for the MCP Memory Server.
 """
 
-from typing import Optional
+from typing import Dict, List, Optional
 
 from pydantic import Field
 from pydantic_settings import BaseSettings
@@ -23,12 +23,34 @@ class Settings(BaseSettings):
     chroma_host: str = Field(default="localhost", env="CHROMA_HOST")
     chroma_port: int = Field(default=8000, env="CHROMA_PORT")
 
-    # Embedding settings
+    # Enhanced Embedding settings
     embedding_model: str = Field(default="sentence-transformers", env="EMBEDDING_MODEL")
     openai_api_key: Optional[str] = Field(default=None, env="OPENAI_API_KEY")
     sentence_transformer_model: str = Field(
         default="all-MiniLM-L6-v2", env="SENTENCE_TRANSFORMER_MODEL"
     )
+    
+    # Enhanced embedding features
+    enable_enhanced_embeddings: bool = Field(default=True, env="ENABLE_ENHANCED_EMBEDDINGS")
+    enable_embedding_cache: bool = Field(default=True, env="ENABLE_EMBEDDING_CACHE")
+    embedding_cache_ttl: int = Field(default=3600, env="EMBEDDING_CACHE_TTL")
+    enable_ensemble_embeddings: bool = Field(default=True, env="ENABLE_ENSEMBLE_EMBEDDINGS")
+    enable_quality_metrics: bool = Field(default=True, env="ENABLE_QUALITY_METRICS")
+    
+    # Model selection settings
+    preferred_code_model: str = Field(default="microsoft/codebert-base", env="PREFERRED_CODE_MODEL")
+    preferred_text_model: str = Field(default="all-MiniLM-L6-v2", env="PREFERRED_TEXT_MODEL")
+    preferred_documentation_model: str = Field(default="all-mpnet-base-v2", env="PREFERRED_DOCUMENTATION_MODEL")
+    
+    # Performance settings
+    embedding_batch_size: int = Field(default=10, env="EMBEDDING_BATCH_SIZE")
+    max_embedding_retries: int = Field(default=3, env="MAX_EMBEDDING_RETRIES")
+    embedding_timeout: float = Field(default=30.0, env="EMBEDDING_TIMEOUT")
+    
+    # Quality thresholds
+    min_embedding_confidence: float = Field(default=0.5, env="MIN_EMBEDDING_CONFIDENCE")
+    min_embedding_coherence: float = Field(default=0.3, env="MIN_EMBEDDING_COHERENCE")
+    min_embedding_diversity: float = Field(default=0.2, env="MIN_EMBEDDING_DIVERSITY")
 
     # Server settings
     host: str = Field(default="0.0.0.0", env="HOST")
