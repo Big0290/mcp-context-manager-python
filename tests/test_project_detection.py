@@ -10,6 +10,10 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Add the project root to the Python path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 from src.project_detector import detect_project_name, sanitize_project_name
 
 
