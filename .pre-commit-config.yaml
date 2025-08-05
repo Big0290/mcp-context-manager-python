@@ -29,8 +29,9 @@ repos:
     hooks:
       - id: check-docs
         name: Check Documentation
-        entry: python3
-        language: system
+        entry: python
+        language: python
         pass_filenames: false
         always_run: true
         args: [-c, "import markdown; print('Documentation check passed')"]
+        additional_dependencies: [markdown]

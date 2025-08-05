@@ -1,17 +1,40 @@
 {
   "mcpServers": {
-    "mcp-brain-context-manager": {
-      "command": "/path/to/mcp-context-manager-python/.venv/bin/python",
+    "brain-enhanced-mcp": {
+      "command": "/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/OpenSource_Projects/mcp-context-manager-python/venv/bin/python",
       "args": [
-        "/path/to/mcp-context-manager-python/src/brain_enhanced_mcp_server.py"
+        "/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/OpenSource_Projects/mcp-context-manager-python/mcp_server_protocol.py"
       ],
-      "cwd": "/path/to/mcp-context-manager-python",
       "env": {
-        "MCP_PROJECT_ID": "cursor-workspace",
-        "MCP_LOG_LEVEL": "INFO",
-        "MCP_PERFORMANCE_MONITORING": "true",
-        "PYTHONPATH": "/path/to/mcp-context-manager-python"
-      }
+        "ENABLE_BRAIN_FEATURES": "true",
+        "ENABLE_PLUGINS": "true",
+        "BRAIN_ENHANCEMENT_LEVEL": "full",
+        "EMOTIONAL_LEARNING_ENABLED": "true",
+        "COGNITIVE_LOOP_ENABLED": "true",
+        "PLUGIN_DIRS": "plugins,src/plugins,~/.mcp/plugins",
+        "LOG_LEVEL": "INFO",
+        "PYTHONPATH": "/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/OpenSource_Projects/mcp-context-manager-python"
+      },
+      "cwd": "/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/OpenSource_Projects/mcp-context-manager-python",
+      "description": "Brain-Enhanced Extensible MCP Server with Plugin System"
+    },
+    "brain-memory-server": {
+      "command": "/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/OpenSource_Projects/mcp-context-manager-python/venv/bin/python",
+      "args": [
+        "/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/OpenSource_Projects/mcp-context-manager-python/run_server.py"
+      ],
+      "env": {
+        "ENABLE_BRAIN_FEATURES": "true",
+        "ENABLE_PLUGINS": "true",
+        "BRAIN_ENHANCEMENT_LEVEL": "full",
+        "EMOTIONAL_LEARNING_ENABLED": "true",
+        "COGNITIVE_LOOP_ENABLED": "true",
+        "PLUGIN_DIRS": "plugins,src/plugins,~/.mcp/plugins",
+        "LOG_LEVEL": "INFO",
+        "PYTHONPATH": "/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/OpenSource_Projects/mcp-context-manager-python"
+      },
+      "cwd": "/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/OpenSource_Projects/mcp-context-manager-python",
+      "description": "Brain Memory Server with Context Management"
     }
   }
 }
