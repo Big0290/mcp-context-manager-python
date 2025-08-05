@@ -1,0 +1,22 @@
+{
+    "mcpServers": {
+        "brain-enhanced-mcp": {
+            "command": "python",
+            "args": [
+                "-m",
+                "src.extensible_mcp_server"
+            ],
+            "env": {
+                "ENABLE_BRAIN_FEATURES": "true",
+                "ENABLE_PLUGINS": "true",
+                "BRAIN_ENHANCEMENT_LEVEL": "full",
+                "EMOTIONAL_LEARNING_ENABLED": "true",
+                "COGNITIVE_LOOP_ENABLED": "true",
+                "PLUGIN_DIRS": "plugins,src/plugins,~/.mcp/plugins",
+                "LOG_LEVEL": "INFO"
+            },
+            "cwd": ".",
+            "description": "Brain-Enhanced Extensible MCP Server with Plugin System"
+        }
+    }
+}

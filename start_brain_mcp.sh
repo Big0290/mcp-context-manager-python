@@ -1,29 +1,50 @@
 #!/bin/bash
-# Brain-Enhanced MCP Server Startup Script
 
-echo "🧠 Starting Brain-Enhanced MCP Context Manager..."
-echo "📍 Project: /Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/mcp-context-manager-python"
-echo "🐍 Python: /Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/mcp-context-manager-python/.venv/bin/python"
-echo ""
+# Brain-Enhanced Extensible MCP Server Startup Script
+# This script starts the extensible MCP server with brain enhancement features
 
-export PYTHONPATH="/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/mcp-context-manager-python"
-export MCP_PROJECT_ID="cursor-workspace"
-export MCP_LOG_LEVEL="INFO"
-export MCP_PERFORMANCE_MONITORING="true"
+echo "🧠 Starting Brain-Enhanced Extensible MCP Server..."
+echo "=================================================="
 
-cd "/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/mcp-context-manager-python"
-
-# Test mode - shows server info and exits
-if [ "$1" = "--test" ]; then
-    echo "🧪 Running in test mode..."
-    /Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/mcp-context-manager-python/.venv/bin/python test_brain_mcp.py
-    exit $?
+# Check if virtual environment exists
+if [ ! -d "venv" ]; then
+    echo "❌ Virtual environment not found. Please run setup first."
+    exit 1
 fi
 
-# Normal mode - starts MCP server
-echo "🚀 Starting MCP server..."
-echo "   Use Ctrl+C to stop"
-echo "   Logs will be written to logs/mcp_server.log"
+# Activate virtual environment
+echo "📦 Activating virtual environment..."
+source venv/bin/activate
+
+# Set environment variables
+export ENABLE_BRAIN_FEATURES=true
+export ENABLE_PLUGINS=true
+export BRAIN_ENHANCEMENT_LEVEL=full
+export EMOTIONAL_LEARNING_ENABLED=true
+export COGNITIVE_LOOP_ENABLED=true
+export PLUGIN_DIRS="plugins,src/plugins,~/.mcp/plugins"
+export LOG_LEVEL=INFO
+
+# Create necessary directories
+echo "📁 Creating necessary directories..."
+mkdir -p data/plugins
+mkdir -p data/experience_logs
+mkdir -p logs
+mkdir -p ~/.mcp/plugins
+
+# Start the extensible MCP server
+echo "🚀 Starting Extensible MCP Server..."
+echo "Features enabled:"
+echo "  ✅ Brain Enhancement"
+echo "  ✅ Plugin System"
+echo "  ✅ Emotional Learning"
+echo "  ✅ Cognitive Loop"
+echo "  ✅ Memory Management"
+echo "  ✅ Context Injection"
 echo ""
 
-/Users/jonathanmorand/Documents/ProjectsFolder/MCP_FOLDER/mcp-context-manager-python/.venv/bin/python src/brain_enhanced_mcp_server.py
+# Run the extensible MCP server
+python -m src.extensible_mcp_server
+
+echo ""
+echo "🛑 Brain-Enhanced Extensible MCP Server stopped."
